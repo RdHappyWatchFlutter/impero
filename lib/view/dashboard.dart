@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:impero/controller/dashboard_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:impero/model/product.dart';
+import 'package:impero/view/product_detail.dart';
+import 'package:page_transition/page_transition.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key});
@@ -100,59 +102,69 @@ class _DashBoardState extends State<DashBoard> with TickerProviderStateMixin {
                                             scrollDirection: Axis.horizontal,
                                             padding: EdgeInsets.all(5.0),
                                             itemBuilder: (context,subIndex){
-                                              return Column(
-                                                children: [
-                                                  Container(
-                                                    height: 100.0,
-                                                    width: 100.0,
-                                                    padding: EdgeInsets.all(8.0),
-                                                    margin: EdgeInsets.all(8.0),
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: CachedNetworkImageProvider(
-                                                              list[index].product[subIndex].imageName,
+                                              return GestureDetector(
+                                                onTap: (){
+                                                  Navigator.push(
+                                                      context, PageTransition(type: PageTransitionType.rightToLeft,
+                                                      child: ProductDetail(productElement: list[index].product[subIndex],),
+                                                      isIos: true,
+                                                  ));
+
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      height: 100.0,
+                                                      width: 100.0,
+                                                      padding: EdgeInsets.all(8.0),
+                                                      margin: EdgeInsets.all(8.0),
+                                                      decoration: BoxDecoration(
+                                                          image: DecorationImage(
+                                                              image: CachedNetworkImageProvider(
+                                                                list[index].product[subIndex].imageName,
+                                                              ),
+                                                              fit: BoxFit.fill
+                                                          )
+                                                      ),
+                                                      child: Align(
+                                                        alignment: Alignment.topLeft,
+                                                        child: Container(
+                                                          height: 20.0,
+                                                          width: 30.0,
+                                                          margin: EdgeInsets.all(5.0),
+                                                          child: Center(
+                                                            child: Text(
+                                                                list[index].product[subIndex].priceCode
                                                             ),
-                                                            fit: BoxFit.fill
-                                                        )
-                                                    ),
-                                                    child: Align(
-                                                      alignment: Alignment.topLeft,
-                                                      child: Container(
-                                                        height: 20.0,
-                                                        width: 30.0,
-                                                        margin: EdgeInsets.all(5.0),
-                                                        child: Center(
-                                                          child: Text(
-                                                              list[index].product[subIndex].priceCode
+                                                          ),
+                                                          decoration: BoxDecoration(
+                                                            color: Colors.lightBlueAccent,
+                                                            borderRadius: BorderRadius.circular(5.0),
+
                                                           ),
                                                         ),
-                                                        decoration: BoxDecoration(
-                                                          color: Colors.lightBlueAccent,
-                                                          borderRadius: BorderRadius.circular(5.0),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Align(
+                                                        alignment: Alignment.bottomCenter,
+                                                        child: Text(
+                                                          list[index].product[subIndex].name,
+                                                          style: TextStyle(
+                                                              fontSize: 12.0
+                                                          ),
+                                                          softWrap: true,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          maxLines: 10,
 
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Align(
-                                                      alignment: Alignment.bottomCenter,
-                                                      child: Text(
-                                                        list[index].product[subIndex].name,
-                                                        style: TextStyle(
-                                                            fontSize: 12.0
-                                                        ),
-                                                        softWrap: true,
-                                                        overflow: TextOverflow.ellipsis,
-                                                        maxLines: 10,
-
-                                                      ),
-                                                    ),
-                                                  ),
 
 
-                                                ],
+                                                  ],
+                                                ),
                                               );
                                             }),
                                       ),
